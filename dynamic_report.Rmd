@@ -1,0 +1,58 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+```
+
+## Analyzing my YouTube ads and its relevancy by genre and duration.
+
+
+
+```{r}
+library(tidyverse)
+
+csv_file = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOcOIkITO4xO1pYKiEPGd3sfGuQHNhV8KGKAF71IE0e0NS0RrCfUPg1eCrBm5ycS_CmZU8elNZNkzJ/pub?gid=359396169&single=true&output=csv"
+logged_data = read_csv(csv_file)
+latest_data = logged_data %>%
+  rename(data_time = Time,
+     ad_genre = Genre,
+     personal_relevant = Relevant,
+     rating = Rating,
+     duration = Length,
+     skippable = Skippable
+  )
+```
+
+
+
+
+**Basic Bar Plots**
+
+```{r}
+
+
+#Bar chart of genre and how many times they appeared
+ggplot(data = latest_data) + 
+  geom_bar(aes(x = latest_data$ad_genre)) +
+  labs(title = "Ad Genre Count", x = "Genre", y = "Count",)
+
+
+
+duration_order = c("Less than 15 Seconds", "15 - 30 Seconds", "31 - 60 Seconds", "More than 1 Minute")
+latest_data$duration = factor(latest_data$duration, levels = duration_order)
+
+ggplot(data = latest_data) + 
+  geom_bar(aes(x = latest_data$duration, fill = latest_data$duration)) +
+  labs(title = "Duration Count", x = "Duration of Ad", y = "Count",)
+
+```
