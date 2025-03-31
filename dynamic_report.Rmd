@@ -11,11 +11,12 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```{css}
 * {
   font-family: Arial, Helvetica, sans-serif;
+  padding 10px;
 }
 ```
 
 ## Analyzing my YouTube ads and its relevancy by genre and duration.
-
+For this project, I wanted to analyse the different types of ads that I was getting on YouTube when I watch different videos. I took in different data such as the ad genre, duration, rating, etc to give some insight about the ads I was getting.
 
 
 ```{r}
@@ -31,6 +32,14 @@ latest_data = logged_data %>%
      duration = Length,
      skippable = Skippable
   )
+
+#Highest score of Rating
+highest_score = max(latest_data$rating, na.rm = TRUE)
+paste("Highest rating of all ads:", highest_score)
+
+#Average Score of Rating
+average_score = mean(latest_data$rating, na.rm = TRUE)
+paste("Average rating of all ads:", round(average_score, digits = 2))
 ```
 
 
